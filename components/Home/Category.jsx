@@ -7,11 +7,10 @@ export default function CategoryList() {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    // Giả lập dữ liệu danh mục (có thể thay bằng API sau này)
     const fakeCategories = [
-      { id: 1, name: "Phones", icon: "https://example.com/phone.png" },
-      { id: 2, name: "Laptops", icon: "https://example.com/laptop.png" },
-      { id: 3, name: "Accessories", icon: "https://example.com/accessories.png" }
+      { id: 1, name: "Phones", icon: "" },
+      { id: 2, name: "Laptops", icon: "" },
+      { id: 3, name: "Accessories", icon: "" }
     ];
     setCategories(fakeCategories);
   }, []);

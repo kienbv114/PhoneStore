@@ -48,3 +48,17 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+git branch ten-nhanh-moi
+//Hợp nhất (merge) một nhánh vào nhánh chính (main)
+git checkout main
+git pull origin main
+git merge ten_nhanh
+git branch -d feature-login
+
+// Chuyển sang nhánh khác
+git checkout ten-nhanh
+git switch ten-nhanh
+git checkout feature-login
+
+ip :192.168.1.178
