@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f9fa',
   },
   content: {
-    flex: 1,
-    paddingHorizontal: 16,
+    flex: 1
   },
 });

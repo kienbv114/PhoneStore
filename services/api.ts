@@ -37,5 +37,14 @@ export const getUsers = async () => {
   const response = await api.get('/users');
   return response.data;
 };
+export const getCategories = async () => {
+  const response = await api.get('/categories');
+  return response.data;
+};
+
+export const getProductsByCategory = async (categoryId: number) => {
+  const response = await api.get(`/products?categoryId=${categoryId}`);
+  return response.data;
+};
 
 export default api;

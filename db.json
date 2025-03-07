@@ -20,5 +20,58 @@
       "username": "kienpro",
       "password": "123"
     }
+  ],
+ "categories": [
+  { "id": 1, "name": "Iphone", "icon": "iphone" },
+  { "id": 2, "name": "Samsung", "icon": "samsung" },
+  { "id": 3, "name": "Xiaomi", "icon": "xiaomi" },
+  { "id": 4, "name": "Oppo", "icon": "oppo" },
+  { "id": 5, "name": "Huawei", "icon": "huawei" },
+  { "id": 6, "name": "realme", "icon": "realme" },
+  { "id": 7, "name": "Lenovo", "icon": "lenovo" }
+],
+    
+    "products": [
+    {
+      "id": 1,
+      "name": "iPhone 13 Black",
+      "image": "https://hungthinhmobile.vn/upload/product/600iphone13mauden2-28210.jpg",
+      "price": 29.99,
+      "rating": 4.5,
+      "categoryId": 1
+    },
+    {
+      "id": 2,
+      "name": "iPhone 16 Pink",
+      "image": "https://cdn2.fptshop.com.vn/unsafe/750x0/filters:quality(100)/iphone_16_pink_23227ae794.png",
+      "price": 49.99,
+      "rating": 3.8,
+      "categoryId": 1
+    },
+    {
+      "id": 3,
+      "name": "Samsung Galaxy S23",
+      "image": "https://www.duchuymobile.com/images/variant_image/44/iphone-13-mau-trang.jpg",
+      "price": 25.99,
+      "rating": 4.2,
+      "categoryId": 1
+    },
+    {
+      "id": 4,
+      "name": "Xiaomi 13 Pro",
+      "image": "https://www.duchuymobile.com/images/variant_image/44/iphone-13-mau-xanh.jpg",
+      "price": 19.99,
+      "rating": 4.0,
+      "categoryId": 1
+    },
+    {
+      "id": 5,
+      "name": "Xiaomi 13 Pro",
+      "image": "https://www.duchuymobile.com/images/variant_image/44/iphone-13-mau-xanh.jpg",
+      "price": 19.99,
+      "rating": 4.0,
+      "categoryId": 1
+    }
   ]
+
 }
