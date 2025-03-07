@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     fontFamily: "outfit",
     textAlign: "center",
     marginBottom: 30,
-    color: "#333",
+    color: "#FF9671",
   },
   input: {
     borderWidth: 1,
@@ -76,13 +76,13 @@ const styles = StyleSheet.create({
   btnText: {
     textAlign: "center",
     fontFamily: "outfit",
-    color: "#fff",
+    color: "#FF9671",
     fontSize: 16,
   },
   link: {
     marginTop: 20,
     textAlign: "center",
-    color: "#FF6F00",
+    color: "#FF9671",
     fontFamily: "outfit",
     fontSize: 14,
   },

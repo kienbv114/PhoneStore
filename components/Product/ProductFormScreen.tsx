@@ -9,7 +9,7 @@ interface Product {
   image: string;
   price: number;
   rating: number;
-  category: string;
+  categoryId: number;
 }
 
 // Không cần RouteParams nữa vì không lọc theo category
