@@ -1,28 +1,25 @@
-import { View, Text, FlatList, StyleSheet } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { Colors } from './../../constants/Colors';
-import CategoryItem from './CategoryItem';
-import { router } from 'expo-router';
-import { getCategories } from '../../services/api';
+import { View, Text, FlatList, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import CategoryItem from "./CategoryItem";
+import { router } from "expo-router";
+import { getCategories, Category } from "../../services/api";
 
-interface Category {
-  id: number;
-  name: string;
-  icon: string | any;
+interface IconMap {
+  [key: string]: any;
 }
 
 export default function CategoryList() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const iconMap: { [key: string]: any } = {
-    iphone: require('../../assets/images/logoIphone3.png'),
-    samsung: require('../../assets/images/samsung.png'),
-    xiaomi: require('../../assets/images/xiaomi7.png'),
-    oppo: require('../../assets/images/oppo2.png'),
-    huawei: require('../../assets/images/Huawei-Logo.png'),
-    realme: require('../../assets/images/realme.png'),
-    lenovo: require('../../assets/images/new-lenovo-logo.png'),
+  const iconMap: IconMap = {
+    iphone: require("../../assets/images/logoIphone3.png"),
+    samsung: require("../../assets/images/samsung.png"),
+    xiaomi: require("../../assets/images/xiaomi7.png"),
+    oppo: require("../../assets/images/oppo2.png"),
+    huawei: require("../../assets/images/Huawei-Logo.png"),
+    realme: require("../../assets/images/realme.png"),
+    lenovo: require("../../assets/images/new-lenovo-logo.png"),
   };
 
   useEffect(() => {
@@ -31,11 +28,12 @@ export default function CategoryList() {
         const data = await getCategories();
         const categoriesWithIcons = data.map((category: Category) => ({
           ...category,
-          icon: getCategoryIcon(category.icon || category.name.toLowerCase()),
+          icon: getCategoryIcon(category.icon || category.name.toLowerCase()) || undefined,
         }));
         setCategories(categoriesWithIcons);
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        console.error("Error fetching categories:", error);
+        setCategories([]);
       } finally {
         setLoading(false);
       }
@@ -45,7 +43,11 @@ export default function CategoryList() {
 
   const getCategoryIcon = (iconName: string): any => {
     try {
-      return iconMap[iconName] || null;
+      const icon = iconMap[iconName.toLowerCase()] || null;
+      if (!icon) {
+        console.warn(`Icon not found for ${iconName}, using default`);
+      }
+      return icon;
     } catch (error) {
       console.error(`Error loading icon for ${iconName}:`, error);
       return null;
@@ -54,15 +56,15 @@ export default function CategoryList() {
 
   const handleCategoryPress = (category: Category) => {
     router.push({
-      pathname: '/(tabs)/product',
-      params: { categoryId: category.id, categoryName: category.name },
+      pathname: "/(tabs)/product",
+      params: { categoryId: category.id.toString(), categoryName: category.name },
     });
   };
 
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <Text style={styles.loadingText}>Loading categories...</Text>
+        <Text style={styles.loadingText}>Đang tải danh mục...</Text>
       </View>
     );
   }
@@ -70,7 +72,7 @@ export default function CategoryList() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>List of Catogories</Text>
+        <Text style={styles.title}>Danh Mục Nổi Bật</Text>
       </View>
       <FlatList
         horizontal
@@ -81,6 +83,7 @@ export default function CategoryList() {
         )}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.flatListContent}
+        ItemSeparatorComponent={() => <View style={{ width: 12 }} />}
       />
     </View>
   );
@@ -88,43 +91,54 @@ export default function CategoryList() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
-    borderRadius: 15,
-    marginVertical: 10,
-    overflow: 'hidden',
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    marginVertical: 12,
+    marginHorizontal: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 6,
+    overflow: "hidden",
   },
   header: {
-    padding: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor:'#FF9671',
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    backgroundColor: "#FF6F00",
+    alignItems: "center",
   },
   title: {
-    fontSize: 20,
-    fontFamily: 'outfit',
-    color: '#fff',
-    fontWeight: 'bold',
+    fontSize: 24,
+    fontFamily: "outfit",
+    color: "#fff",
+    fontWeight: "700",
+    textTransform: "uppercase",
+    letterSpacing: 1,
   },
   flatListContent: {
-    paddingHorizontal: 20,
-    paddingVertical: 15,
+    paddingHorizontal: 15,
+    paddingVertical: 20,
+    backgroundColor: "#f9f9f9",
   },
   loadingContainer: {
-    padding: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    marginVertical: 12,
+    marginHorizontal: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   loadingText: {
-    fontSize: 16,
-    fontFamily: 'outfit',
-    color: '#666',
+    fontSize: 18,
+    fontFamily: "outfit",
+    color: "#7f8c8d",
+    fontStyle: "italic",
   },
 });

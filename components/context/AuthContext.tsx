@@ -5,7 +5,7 @@ import { router } from 'expo-router';
 interface AuthContextType {
   user: any;
   login: (username: string, password: string) => Promise<void>;
-  signup: (username: string, password: string) => Promise<void>;
+  signup: (username: string, password: string, fullName: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -20,13 +20,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     router.replace('/home');
   };
 
-  const signup = async (username: string, password: string) => {
+  const signup = async (username: string, password: string,fullName: string) => {
     const existingUsers = await api.getUsers();
     if (existingUsers.some((u: any) => u.username === username)) {
       throw new Error('Username đã tồn tại');
     }
 
-    const newUser = { username, password };
+    const newUser = { username, password,fullName};
     const response = await api.signupUser(newUser);
     setUser(response);
   };

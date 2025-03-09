@@ -1,75 +1,127 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 
 const LoginScreen: React.FC = () => {
   const handleSignIn = () => {
-    router.push('./SigninScreen');
+    router.push("/home");
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.centeredContainer}>
-        <Image
-          source={require("../assets/images/dienthoai.png")}
-          style={styles.image}
-        />
-      </View>
-      <View style={styles.subContainer}>
-        <Text style={styles.title}>
-          Your Ultimate <Text style={{ color: "#FF6F00" }}>Phone Sales Catalog</Text> App
-        </Text>
-        <Text style={styles.subtitle}>Find your favorite</Text>
-        <TouchableOpacity style={styles.btn} onPress={handleSignIn}>
-          <Text style={styles.btnText}>Explore Now My Baby</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    <ImageBackground
+      source={{ uri: "https://via.placeholder.com/400x800" }}
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <LinearGradient
+        colors={["rgba(255, 111, 0, 0.7)", "rgba(255, 140, 66, 0.7)"]}
+        style={styles.overlay}
+      >
+        <View style={styles.container}>
+          <View style={styles.content}>
+            <Image
+              source={require("../assets/images/dienthoai.png")}
+              style={styles.image}
+            />
+            <Text style={styles.title}>
+              Your Ultimate{" "}
+              <Text style={styles.highlight}>Phone Sales Catalog</Text> App
+            </Text>
+            <Text style={styles.subtitle}>Discover your favorite phones today!</Text>
+            <TouchableOpacity style={styles.btn} onPress={handleSignIn}>
+              <LinearGradient
+                colors={["#FF6F00", "#FF8C42"]}
+                style={styles.btnGradient}
+              >
+                <Text style={styles.btnText}>Explore Now</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </LinearGradient>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  background: {
     flex: 1,
-    backgroundColor: "#fff",
+    width: "100%",
+    height: "100%",
   },
-  centeredContainer: {
+  overlay: {
     flex: 1,
     justifyContent: "center",
+    padding: 20,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "transparent",
+  },
+  content: {
     alignItems: "center",
+    padding: 20,
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 5,
   },
   image: {
-    width: 300,
-    height: 350,
+    width: 250,
+    height: 300,
     borderRadius: 20,
-    borderWidth: 1,
-    borderColor: "#000",
-  },
-  subContainer: {
-    padding: 20,
-    marginTop: -20,
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5,
   },
   title: {
-    fontSize: 35,
+    fontSize: 28,
     fontFamily: "outfit",
     textAlign: "center",
+    marginBottom: 10,
+    color: "#333",
+    fontWeight: "bold",
+  },
+  highlight: {
+    color: "#FF6F00",
   },
   subtitle: {
-    fontSize: 15,
+    fontSize: 16,
     fontFamily: "outfit",
     textAlign: "center",
-    marginVertical: 15,
+    marginBottom: 20,
+    color: "#666",
+    fontStyle: "italic",
   },
   btn: {
-    backgroundColor: "#FF9671",
-    padding: 20,
-    borderRadius: 99,
+    borderRadius: 25,
+    overflow: "hidden",
+    width: "80%",
+  },
+  btnGradient: {
+    paddingVertical: 15,
+    alignItems: "center",
   },
   btnText: {
     textAlign: "center",
     fontFamily: "outfit",
     color: "#fff",
     fontSize: 16,
+    fontWeight: "600",
   },
 });
 
