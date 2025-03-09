@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: 'outfit',
     fontSize: 20,
-    color: '#FF9671',
+    color: '#FF6F00',
   },
   username: {
     fontFamily: 'outfit',
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   sliderBackground: {
-    backgroundColor: '#FF9671',
+    backgroundColor: '#FF6F00',
     paddingVertical: 10,
     borderRadius: 15,
     marginHorizontal: 10,

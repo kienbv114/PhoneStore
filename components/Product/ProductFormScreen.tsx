@@ -1,10 +1,19 @@
-import React from "react";
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View, TextInput } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  TextInput,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { router, useLocalSearchParams } from "expo-router";
 import dbData from "../../db.json";
 
 interface Product {
-  id: number;
+  id: string;
   name: string;
   image: string;
   price: number;
@@ -12,23 +21,68 @@ interface Product {
   categoryId: number;
 }
 
-// Không cần RouteParams nữa vì không lọc theo category
 const ProductFormScreen: React.FC = () => {
-  // Lấy tất cả sản phẩm từ db.json
-  const products: Product[] = dbData.products;
+  const { categoryId, categoryName } = useLocalSearchParams();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  useEffect(() => {
+    const loadProducts = () => {
+      try {
+        const allProducts = dbData.products;
+        const filtered = categoryId
+          ? allProducts.filter(
+            (product) => product.categoryId === Number(categoryId)
+          )
+          : allProducts.filter((product) => product.rating >= 0);
+        const sorted = filtered.sort((a, b) => b.rating - a.rating);
+        setProducts(sorted);
+        setFilteredProducts(sorted);
+      } catch (error) {
+        console.error("Error loading products from db.json:", error);
+      }
+    };
+    loadProducts();
+  }, [categoryId]);
+
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      setFilteredProducts(products);
+    } else {
+      const filtered = products.filter((product) =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+    }
+  }, [searchQuery, products]);
+  
 
   const renderProduct = ({ item }: { item: Product }) => (
-    <TouchableOpacity style={styles.productItem} activeOpacity={0.9}>
+    <TouchableOpacity
+      style={styles.productItem}
+      activeOpacity={0.9}
+      onPress={() => router.push({ pathname: "/product", params: { id: item.id, shouldRefresh: "true" } })}
+    >
       <View style={styles.imageContainer}>
-        <Image style={styles.productImage} source={{ uri: item.image }} resizeMode="cover" />
+        <Image
+          style={styles.productImage}
+          source={{ uri: item.image }}
+          resizeMode="cover"
+          onError={(e) => console.log(`Failed to load image: ${e.nativeEvent.error}`)}
+        />
         <View style={styles.ratingBadge}>
           <Ionicons name="star" size={14} color="#fff" />
           <Text style={styles.ratingBadgeText}>{item.rating}</Text>
         </View>
       </View>
       <View style={styles.productInfo}>
-        <Text style={styles.productName} numberOfLines={1}>{item.name}</Text>
-        <Text style={styles.productPrice}>${item.price.toFixed(2)}</Text>
+        <Text style={styles.productName} numberOfLines={1}>
+          {item.name}
+        </Text>
+        <Text style={styles.productPrice}>
+          {item.price.toLocaleString("vi-VN")} VNĐ
+        </Text>
         <TouchableOpacity style={styles.addButton}>
           <Ionicons name="cart-outline" size={20} color="#fff" />
           <Text style={styles.addButtonText}>Add</Text>
@@ -40,7 +94,9 @@ const ProductFormScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>All Phones</Text>
+        <Text style={styles.headerTitle}>
+          {categoryName ? `${categoryName} Phones` : "All Phones"}
+        </Text>
       </View>
       <View style={styles.searchBar}>
         <Ionicons name="search-outline" size={22} color="#666" />
@@ -48,16 +104,24 @@ const ProductFormScreen: React.FC = () => {
           style={styles.searchInput}
           placeholder="Search products..."
           placeholderTextColor="#999"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
         />
       </View>
-      <FlatList
-        data={products}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderProduct}
-        numColumns={2}
-        contentContainerStyle={styles.productList}
-        showsVerticalScrollIndicator={false}
-      />
+      {filteredProducts.length > 0 ? (
+        <FlatList
+          data={filteredProducts}
+          keyExtractor={(item) => item.id}
+          renderItem={renderProduct}
+          numColumns={2}
+          contentContainerStyle={styles.productList}
+          showsVerticalScrollIndicator={false}
+        />
+      ) : (
+        <View style={styles.noProductsContainer}>
+          <Text style={styles.noProductsText}>Không tìm thấy sản phẩm</Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -76,6 +140,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 24,
+    fontFamily: "outfit",
     fontWeight: "700",
     color: "#2c3e50",
   },
@@ -98,6 +163,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 10,
     fontSize: 16,
+    fontFamily: "outfit",
     color: "#333",
   },
   productList: {
@@ -138,6 +204,7 @@ const styles = StyleSheet.create({
   ratingBadgeText: {
     color: "#fff",
     fontSize: 12,
+    fontFamily: "outfit",
     marginLeft: 4,
     fontWeight: "600",
   },
@@ -146,14 +213,16 @@ const styles = StyleSheet.create({
   },
   productName: {
     fontSize: 16,
+    fontFamily: "outfit",
     fontWeight: "600",
     color: "#2c3e50",
     marginBottom: 6,
   },
   productPrice: {
     fontSize: 18,
+    fontFamily: "outfit",
     fontWeight: "700",
-    color: "#e74c3c",
+    color: "#FF6F00",
     marginBottom: 8,
   },
   addButton: {
@@ -167,9 +236,22 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     color: "#fff",
+    fontFamily: "outfit",
     fontWeight: "600",
     fontSize: 14,
     marginLeft: 6,
+  },
+  noProductsContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  noProductsText: {
+    fontSize: 16,
+    fontFamily: "outfit",
+    color: "#666",
+    textAlign: "center",
+    marginTop: 20,
   },
 });
 

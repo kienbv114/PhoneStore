@@ -1,11 +1,10 @@
-import { View, SafeAreaView } from "react-native";
-import React from "react";
-import CartScreen from "../../components/Shopping_cart/CartScreen";
+import { View, Text } from 'react-native'
+import React from 'react'
 
-export default function CartPage() {
+export default function cart() {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <CartScreen />
-    </SafeAreaView>
-  );
+    <View>
+      <Text>cart</Text>
+    </View>
+  )
 }
