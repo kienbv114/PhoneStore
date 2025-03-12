@@ -1,6 +1,8 @@
-import { View, Text, Image, FlatList, StyleSheet } from 'react-native';
+import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 import dbData from '../../db.json';
+import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 interface Product {
   id: string;
@@ -8,6 +10,7 @@ interface Product {
   image: string;
   price: number;
   rating: number;
+  description: string,
   categoryId: number;
 }
 
@@ -16,27 +19,47 @@ export default function OutstandingProduct() {
     (product) => product.rating > 0
   );
 
-  const renderProduct = ({ item }: { item: Product }) => (
-    <View style={styles.productItem}>
-      <Image
-        source={{ uri: item.image }}
-        style={styles.productImage}
-        resizeMode="cover"
-      />
-      <View style={styles.productInfo}>
-        <Text style={styles.productName} numberOfLines={2} ellipsizeMode="tail">
-          {item.name}
-        </Text>
-        <View style={styles.ratingContainer}>
-          <Text style={styles.productRating}>{item.rating}</Text>
-          <Text style={styles.ratingLabel}> ★</Text>
+   const renderProduct = ({ item }: { item: Product }) => (
+      <TouchableOpacity
+        style={styles.productItem}
+        activeOpacity={0.9}
+        onPress={() => router.push({ pathname: "/product_detail", params: { id: item.id, shouldRefresh: "true" } })}
+      >
+        <View style={styles.imageContainer}>
+          <Image
+            style={styles.productImage}
+            source={{ uri: item.image }}
+            resizeMode="cover"
+            onError={(e) => console.log(`Failed to load image: ${e.nativeEvent.error}`)}
+          />
+          <View style={styles.ratingBadge}>
+            <Ionicons name="star" size={14} color="#fff" />
+            <Text style={styles.ratingBadgeText}>{item.rating}</Text>
+          </View>
         </View>
-        <Text style={styles.productPrice}>
-          {item.price.toLocaleString('vi-VN')} ₫
-        </Text>
-      </View>
-    </View>
-  );
+        <View style={styles.productInfo}>
+          <Text style={styles.productName} numberOfLines={1}>
+            {item.name}
+          </Text>
+          <Text style={styles.productPrice}>
+            {item.price.toLocaleString("vi-VN")} VNĐ
+          </Text>
+          <TouchableOpacity 
+          style={styles.addButton} 
+          onPress={() => { 
+            router.push({
+              pathname: "/cart", 
+              params: {productId: item.id, 
+              productName: item.name, 
+              productPrice: item.price, 
+              productDescription: item.description, 
+              productImage: item.image}})}}>
+            <Ionicons name="cart-outline" size={20} color="#fff" />
+            <Text style={styles.addButtonText}>Add</Text>
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
+    );
 
   return (
     <View style={styles.container}>
@@ -151,5 +174,43 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 30,
     fontStyle: 'italic',
+  },
+
+  imageContainer: {
+    position: "relative",
+  },
+  ratingBadge: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.7)",
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 10,
+  },
+  ratingBadgeText: {
+    color: "#fff",
+    fontSize: 12,
+    fontFamily: "outfit",
+    marginLeft: 4,
+    fontWeight: "600",
+  },
+  addButton: {
+    flexDirection: "row",
+    backgroundColor: "#FF6F00",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  addButtonText: {
+    color: "#fff",
+    fontFamily: "outfit",
+    fontWeight: "600",
+    fontSize: 14,
+    marginLeft: 6,
   },
 });

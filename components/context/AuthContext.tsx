@@ -33,7 +33,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = () => {
     setUser(null);
-    router.replace('/SigninScreen');
+    router.replace('/home');
   };
 
   return (

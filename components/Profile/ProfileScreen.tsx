@@ -8,11 +8,17 @@ import {
   TextInput,
   Image,
   ImageBackground,
+  ScrollView,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useAuth } from "../context/AuthContext";
 import { router } from "expo-router";
-import { getUserById, updateUser, deleteUser, getUsers } from "../../services/api";
+import {
+  getUserById,
+  updateUser,
+  deleteUser,
+  getUsers,
+} from "../../services/api";
 import { Ionicons } from "@expo/vector-icons";
 
 const ProfileScreen: React.FC = () => {
@@ -124,19 +130,21 @@ const ProfileScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <LinearGradient
-        colors={["#FF6F00", "#FF8C42"]}
-        style={styles.header}
-      >
+      <LinearGradient colors={["#FF6F00", "#FF8C42"]} style={styles.header}>
         <Text style={styles.headerTitle}>Hồ sơ cá nhân</Text>
       </LinearGradient>
-      <View style={styles.content}>
+      <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.avatarContainer}>
           <Image
             source={{ uri: "https://via.placeholder.com/100" }} // Thay bằng ảnh thật nếu có
             style={styles.avatar}
           />
-          <Ionicons name="person-circle" size={100} color="#FF6F00" style={styles.avatarIcon} />
+          <Ionicons
+            name="person-circle"
+            size={100}
+            color="#FF6F00"
+            style={styles.avatarIcon}
+          />
         </View>
         {userDetails ? (
           <View style={styles.card}>
@@ -180,7 +188,9 @@ const ProfileScreen: React.FC = () => {
                   placeholderTextColor="#999"
                 />
               ) : (
-                <Text style={styles.info}>{userDetails.fullName || "Chưa cập nhật"}</Text>
+                <Text style={styles.info}>
+                  {userDetails.fullName || "Chưa cập nhật"}
+                </Text>
               )}
             </View>
           </View>
@@ -190,7 +200,10 @@ const ProfileScreen: React.FC = () => {
         <View style={styles.buttonGroup}>
           {isEditing ? (
             <>
-              <TouchableOpacity style={styles.saveBtn} onPress={handleUpdateProfile}>
+              <TouchableOpacity
+                style={styles.saveBtn}
+                onPress={handleUpdateProfile}
+              >
                 <Text style={styles.btnText}>Lưu</Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -206,18 +219,24 @@ const ProfileScreen: React.FC = () => {
               </TouchableOpacity>
             </>
           ) : (
-            <TouchableOpacity style={styles.editBtn} onPress={() => setIsEditing(true)}>
+            <TouchableOpacity
+              style={styles.editBtn}
+              onPress={() => setIsEditing(true)}
+            >
               <Text style={styles.btnText}>Cập nhật tài khoản</Text>
             </TouchableOpacity>
           )}
-          <TouchableOpacity style={styles.deleteBtn} onPress={handleDeleteAccount}>
+          <TouchableOpacity
+            style={styles.deleteBtn}
+            onPress={handleDeleteAccount}
+          >
             <Text style={styles.btnText}>Xóa tài khoản</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.logoutBtn} onPress={logout}>
             <Text style={styles.btnText}>Đăng xuất</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -293,7 +312,7 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   content: {
-    flex: 1,
+    flexGrow: 1,
     padding: 20,
     alignItems: "center",
   },

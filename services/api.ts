@@ -19,10 +19,11 @@ export interface Product {
   image: string;
   price: number;
   rating: number;
+  description: string;
   categoryId: number | string;
 }
 
-const API_URL = "http://10.0.2.2:3000";
+const API_URL = "http://192.168.207.1:3000";
 
 const api = axios.create({
   baseURL: API_URL,
@@ -192,6 +193,17 @@ export const getProductsByRating = async (
       axiosError.response?.data || axiosError.message
     );
     throw new Error("Không thể tải sản phẩm");
+  }
+};
+
+export const getProductById = async (id: string): Promise<Product> => {
+  try {
+    const response: AxiosResponse<Product> = await api.get(`/products/${id}`);
+    return response.data;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    console.error("API Error (getProductById):", axiosError.response?.data || axiosError.message);
+    throw new Error("Không thể tải thông tin sản phẩm");
   }
 };
 

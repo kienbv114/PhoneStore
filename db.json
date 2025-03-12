@@ -1,53 +1,10 @@
 {
   "users": [
     {
-      "id": "1",
-      "username": "kienbv",
-      "password": "123456",
-      "fullName": "Bui Viet Kien"
-    },
-    {
-      "id": "2",
-      "username": "user1",
-      "password": "123"
-    },
-    {
-      "id": "e7cc",
-      "username": "buivietkien",
-      "password": "11042003"
-    },
-    {
-      "id": "5f00",
-      "username": "kienpro",
-      "password": "123"
-    },
-    {
-      "id": "5be7",
-      "username": "buivietkien123",
-      "password": "123"
-    },
-    {
-      "id": "e1cc",
-      "username": "kien1234",
-      "password": "1234",
-      "fullName": "Bui Viet Kien"
-    },
-    {
-      "id": "0711",
-      "username": "kien12345",
-      "password": "12345",
-      "fullName": "kk"
-    },
-    {
-      "id": "127b",
-      "username": "kien114",
-      "password": "123456",
-      "fullName": "BVK"
-    },
-    {
-      "id": "65fd",
+      "id": "c347",
       "username": "thanh",
-      "password": "1"
+      "password": "1",
+      "fullName": "Truong Cong Thanh"
     }
   ],
   "categories": [
@@ -94,7 +51,8 @@
       "image": "https://hungthinhmobile.vn/upload/product/600iphone13mauden2-28210.jpg",
       "price": 29.99,
       "rating": 4.5,
-      "categoryId": 1
+      "categoryId": 1,
+      "description": "iPhone 13 Black với màn hình OLED 6.1 inch, camera kép 12MP và chip A15 Bionic."
     },
     {
       "id": "2",
@@ -102,7 +60,8 @@
       "image": "https://cdn2.fptshop.com.vn/unsafe/750x0/filters:quality(100)/iphone_16_pink_23227ae794.png",
       "price": 49.99,
       "rating": 3.8,
-      "categoryId": 1
+      "categoryId": 1,
+      "description": "iPhone 16 Pink với thiết kế thời trang, camera nâng cấp và hiệu năng mạnh mẽ."
     },
     {
       "id": "3",
@@ -110,7 +69,8 @@
       "image": "https://www.duchuymobile.com/images/variant_image/44/iphone-13-mau-trang.jpg",
       "price": 25.99,
       "rating": 4.2,
-      "categoryId": 2
+      "categoryId": 2,
+      "description": "Samsung Galaxy S23 với màn hình Dynamic AMOLED 6.1 inch, Snapdragon 8 Gen 2 và camera 50MP."
     },
     {
       "id": "4",
@@ -118,15 +78,65 @@
       "image": "https://www.duchuymobile.com/images/variant_image/44/iphone-13-mau-xanh.jpg",
       "price": 19.99,
       "rating": 4,
-      "categoryId": 3
+      "categoryId": 3,
+      "description": "Xiaomi 13 Pro với màn hình 120Hz, sạc nhanh 120W và camera Leica 50MP."
+    }
+  ],
+  "orders": [
+    {
+      "id": "1741718228498",
+      "customerName": "1",
+      "address": "1",
+      "phone": "1",
+      "paymentMethod": "cash",
+      "totalAmount": 29.99,
+      "items": [],
+      "status": "pending",
+      "createdAt": "2025-03-11T18:37:08.498Z"
     },
     {
-      "id": "5",
-      "name": "Xiaomi 13 Pro",
-      "image": "https://www.duchuymobile.com/images/variant_image/44/iphone-13-mau-xanh.jpg",
-      "price": 19.99,
-      "rating": 4,
-      "categoryId": 3
+      "id": "1741718255970",
+      "customerName": "1",
+      "address": "1",
+      "phone": "1",
+      "paymentMethod": "card",
+      "totalAmount": 29.99,
+      "items": [],
+      "status": "pending",
+      "createdAt": "2025-03-11T18:37:35.970Z"
+    },
+    {
+      "id": "1741718767972",
+      "customerName": "1",
+      "address": "2",
+      "phone": "1",
+      "paymentMethod": "cash",
+      "totalAmount": 29.99,
+      "items": [],
+      "status": "pending",
+      "createdAt": "2025-03-11T18:46:07.972Z"
+    },
+    {
+      "id": "1741718833220",
+      "customerName": "9",
+      "address": "9",
+      "phone": "9",
+      "paymentMethod": "cash",
+      "totalAmount": 29.99,
+      "items": [],
+      "status": "pending",
+      "createdAt": "2025-03-11T18:47:13.220Z"
+    },
+    {
+      "id": "1741719874601",
+      "customerName": "88",
+      "address": "88",
+      "phone": "888",
+      "paymentMethod": "cash",
+      "totalAmount": 29.99,
+      "items": [],
+      "status": "pending",
+      "createdAt": "2025-03-11T19:04:34.601Z"
     }
   ]
 }

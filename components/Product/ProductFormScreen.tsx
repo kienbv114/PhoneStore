@@ -18,6 +18,7 @@ interface Product {
   image: string;
   price: number;
   rating: number;
+  description: string;
   categoryId: number;
 }
 
@@ -33,9 +34,10 @@ const ProductFormScreen: React.FC = () => {
         const allProducts = dbData.products;
         const filtered = categoryId
           ? allProducts.filter(
-            (product) => product.categoryId === Number(categoryId)
-          )
-          : allProducts.filter((product) => product.rating >= 0);
+              (product) => product.categoryId === Number(categoryId)
+            )
+          : allProducts; // Hiển thị tất cả nếu không có categoryId
+
         const sorted = filtered.sort((a, b) => b.rating - a.rating);
         setProducts(sorted);
         setFilteredProducts(sorted);
@@ -56,20 +58,26 @@ const ProductFormScreen: React.FC = () => {
       setFilteredProducts(filtered);
     }
   }, [searchQuery, products]);
-  
 
   const renderProduct = ({ item }: { item: Product }) => (
     <TouchableOpacity
       style={styles.productItem}
       activeOpacity={0.9}
-      onPress={() => router.push({ pathname: "/product", params: { id: item.id, shouldRefresh: "true" } })}
+      onPress={() =>
+        router.push({
+          pathname: "/product_detail",
+          params: { id: item.id, shouldRefresh: "true" },
+        })
+      }
     >
       <View style={styles.imageContainer}>
         <Image
           style={styles.productImage}
           source={{ uri: item.image }}
           resizeMode="cover"
-          onError={(e) => console.log(`Failed to load image: ${e.nativeEvent.error}`)}
+          onError={(e) =>
+            console.log(`Failed to load image: ${e.nativeEvent.error}`)
+          }
         />
         <View style={styles.ratingBadge}>
           <Ionicons name="star" size={14} color="#fff" />
@@ -83,7 +91,21 @@ const ProductFormScreen: React.FC = () => {
         <Text style={styles.productPrice}>
           {item.price.toLocaleString("vi-VN")} VNĐ
         </Text>
-        <TouchableOpacity style={styles.addButton}>
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() => {
+            router.push({
+              pathname: "/cart",
+              params: {
+                productId: item.id,
+                productName: item.name,
+                productPrice: item.price,
+                productDescription: item.description,
+                productImage: item.image,
+              },
+            });
+          }}
+        >
           <Ionicons name="cart-outline" size={20} color="#fff" />
           <Text style={styles.addButtonText}>Add</Text>
         </TouchableOpacity>
@@ -97,6 +119,14 @@ const ProductFormScreen: React.FC = () => {
         <Text style={styles.headerTitle}>
           {categoryName ? `${categoryName} Phones` : "All Phones"}
         </Text>
+      </View>
+      <View style={{ alignItems: "flex-end" }}>
+        <TouchableOpacity
+          style={styles.headerShowAll}
+          onPress={() => router.push({ pathname: "/product" })}
+        >
+          <Text style={styles.viewAllText}>View all </Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.searchBar}>
         <Ionicons name="search-outline" size={22} color="#666" />
@@ -132,9 +162,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#f8f9fd",
   },
   header: {
+    flexDirection: "row",
     backgroundColor: "#fff",
-    paddingVertical: 15,
-    paddingHorizontal: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
   },
@@ -150,8 +181,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     marginHorizontal: 15,
     marginVertical: 10,
-    paddingHorizontal: 15,
-    paddingVertical: 12,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
     borderRadius: 12,
     elevation: 2,
     shadowColor: "#000",
@@ -252,6 +283,22 @@ const styles = StyleSheet.create({
     color: "#666",
     textAlign: "center",
     marginTop: 20,
+  },
+  headerShowAll: {
+    backgroundColor: "#FF6F00",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
+  },
+  viewAllText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#fff",
+    textAlign: "center",
   },
 });
 

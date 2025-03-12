@@ -1,5 +1,11 @@
 import React from "react";
-import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import ProductFormScreen from "../../components/Product/ProductFormScreen";
@@ -10,7 +16,10 @@ export default function ListProduct() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+        <TouchableOpacity
+          onPress={() => router.push({pathname: "/home"})}
+          style={styles.backButton}
+        >
           <Ionicons name="arrow-back" size={24} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Danh sách sản phẩm</Text>
